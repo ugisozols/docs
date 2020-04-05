@@ -19,7 +19,7 @@ Provisioning a server means to set it up with the necessary software and configu
 
 Trellis has two main [playbooks](http://docs.ansible.com/ansible/playbooks.html): `dev.yml` and `server.yml`. As mentioned in local development, Vagrant automatically runs the `dev.yml` playbook for us.
 
-For remote servers, you provision a server via the `server.yml` playbook. This leaves you with a server *prepared- to run a WordPress site, but without the actual codebase yet.
+For remote servers, you provision a server via the `server.yml` playbook. This leaves you with a server *prepared* to run a WordPress site, but without the actual codebase yet.
 
 ## Deploy
 
@@ -46,7 +46,7 @@ Ubuntu 16.04 (Xenial) is still supported as well so you don't need to migrate ye
 
 **You can't run Trellis on a shared host**.
 
-2. You need to be able to connect to your server from your local computer via SSH. We *highly- suggest doing this via SSH keys so you don't have to specify a password every time. Many hosts like DigitalOcean offer to automatically add your SSH key when creating a server so take advantage of that. Or follow a guide such as [this one](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2).
+2. You need to be able to connect to your server from your local computer via SSH. We *highly* suggest doing this via SSH keys so you don't have to specify a password every time. Many hosts like DigitalOcean offer to automatically add your SSH key when creating a server so take advantage of that. Or follow a guide such as [this one](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2).
 
 Now that you have a working Ubuntu 18.04 server that you can easily SSH into, you need to configure a few things:
 
@@ -57,21 +57,47 @@ Now that you have a working Ubuntu 18.04 server that you can easily SSH into, yo
 5. Consider setting `sshd_permit_root_login: false` in `group_vars/all/security.yml`. See the [Security docs](security.md).
 6. Run `ansible-playbook server.yml -e env=<environment>` from your local machine (Ansible connects to your remote server via SSH).
 
-This leaves you with a *provisioned- server. The next step is to [deploy](deploys.md) your site.
+This leaves you with a *provisioned* server. The next step is to [deploy](deploys.md) your site.
 
 ## Re-provisioning
 
 Re-provisioning is always assumed to be a safe operation. When you make changes to your Trellis configuration, you should provision your remote servers again to apply the changes:
 
+<CodeSwitcher :languages="{cli:'Trellis CLI',manual:'Manual'}">
+<template v-slot:cli>
+
+```bash
+$ trellis provision <environment>
+```
+
+</template>
+<template v-slot:manual>
+
 ```bash
 $ ansible-playbook server.yml -e env=<environment>
 ```
 
+</template>
+</CodeSwitcher>
+
 You can also provision with specific tags to only run the relevant roles:
+
+<CodeSwitcher :languages="{cli:'Trellis CLI',manual:'Manual'}">
+<template v-slot:cli>
+
+```bash
+$ trellis provision <environment> --tags=users
+```
+
+</template>
+<template v-slot:manual>
 
 ```bash
 $ ansible-playbook server.yml -e env=<environment> --tags=users
 ```
+
+</template>
+</CodeSwitcher>
 
 ## Resources
 

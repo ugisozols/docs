@@ -24,15 +24,22 @@ At this point, you should also generate your salts and keys and save them to you
 
 Deploy with a single command:
 
-```sh
-$ ./bin/deploy.sh <environment> <domain>
+<CodeSwitcher :languages="{cli:'Trellis CLI',manual:'Manual'}">
+<template v-slot:cli>
+
+```bash
+$ trellis deploy <environment> <site name>
 ```
 
-`deploy.sh` is a very simple Bash script which just runs the actual `ansible-playbook` command which can be a little annoying to type out.
+</template>
+<template v-slot:manual>
 
-The actual command looks like this: `ansible-playbook deploy.yml -e "site=<domain> env=<environment>"`.
+```bash
+$ ansible-playbook deploy.yml -e "site=<name> env=<environment>"
+```
 
-You can always use this command itself since it can take any additional `ansible-playbook` options.
+</template>
+</CodeSwitcher>
 
 ::: warning Note
 **Trellis does not automatically install WordPress on remote servers**.
@@ -165,20 +172,65 @@ wordpress_sites:
 
 Deploy command:
 
-```bash
-$ ./bin/deploy.sh production mysite.com
-```
-
-Or alternatively:
+<CodeSwitcher :languages="{cli:'Trellis CLI',manual:'Manual'}">
+<template v-slot:cli>
 
 ```bash
-$ ansible-playbook deploy.yml -e "site=mysite.com env=production"
+$ trellis deploy production mysite.com
 ```
+
+</template>
+<template v-slot:manual>
+
+```bash
+$ ansible-playbook deploy.yml -e "site=mysite.com env=product"
+```
+
+</template>
+</CodeSwitcher>
 
 ## Rollbacks
 
-To rollback a deploy, run `ansible-playbook rollback.yml -e "site=<domain> env=<environment>"` .
-You may manually specify a different release using `--extra-vars='release=12345678901234'` . By default Trellis stores 5 previous releases, not including the current release. See `deploy_keep_releases` in [Options - Remote Servers](wordpress-sites.md) to change this setting.
+Each deploy creates a release and Trellis lets you easily rollback a deploy and restore a previous release.
+The rollback command will revert to the *previous* release by default:
+
+<CodeSwitcher :languages="{cli:'Trellis CLI',manual:'Manual'}">
+<template v-slot:cli>
+
+```bash
+$ trellis rollback <environment> <site name>
+```
+
+</template>
+<template v-slot:manual>
+
+```bash
+$ ansible-playbook rollback.yml -e "site=<name> env=<environment>"
+```
+
+</template>
+</CodeSwitcher>
+
+You can rollback to a different specific release:
+
+<CodeSwitcher :languages="{cli:'Trellis CLI',manual:'Manual'}">
+<template v-slot:cli>
+
+```bash
+$ trellis rollback <environment> <site name> --release=<timestamp>
+```
+
+</template>
+<template v-slot:manual>
+
+```bash
+$ ansible-playbook rollback.yml -e "site=<name> env=<environment> release=<timestamp>"
+```
+
+</template>
+</CodeSwitcher>
+
+By default Trellis stores 5 previous releases, not including the current release. See `deploy_keep_releases` in [Options - Remote Servers](wordpress-sites.md) to change this setting.
 
 ## Deploying to other hosts
 
