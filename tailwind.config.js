@@ -15,7 +15,7 @@ module.exports = {
           '800': '#424242',
           '900': '#212121',
         },
-        'brand': {
+        brand: {
           100: '#EEEFFC',
           200: '#D4D7F6',
           300: '#BABEF1',
@@ -26,7 +26,7 @@ module.exports = {
           800: '#252A63',
           900: '#191C42',
         },
-        'inherit': 'inherit',
+        inherit: 'inherit',
       },
       fontFamily: {
         sans: [
@@ -58,27 +58,69 @@ module.exports = {
         '3': '3px',
         '6': '6px',
       },
-      minWidth: (theme) => ({
+      minWidth: theme => ({
         '1/2': '50%',
         ...theme('spacing'),
       }),
       listStyleType: {
-        'square': 'square',
-        'circle': 'circle',
+        square: 'square',
+        circle: 'circle',
       },
       letterSpacing: {
-        widest: '.225em',
+        widest: '.25em',
+      },
+      syntax: {
+        color: {
+          background: '#292929',
+          border: '#e1e1e8',
+          base: '#fff',
+          debug: 'red',
+          fade: '#fff',
+          comment: '#6f705e',
+          keyword: '#f12770',
+          value: '#76d9e6',
+          string: '#babef1',
+          name: '#e6d06c',
+          number: '#fff',
+          variable: '#fff',
+          selector: '#a6e22d',
+          punctuation: '#fff',
+        },
+        tabSize: 2,
+        hyphens: 'none',
+        blockPadding: '2px',
+        inlinePadding: '2px 6px',
+        border: {
+          width: '1px',
+          style: 'solid',
+          radius: '5px',
+        },
+        weight: {
+          important: 'bold',
+          normal: 'normal',
+        },
+        boxShadow: '1px 1px 0.3em -0.1em #000 inset',
+        textShadow: '0 1px 0 #000',
+        highlight: {
+          lineHeight: 1.4,
+          marginTop: '0.85rem',
+          marginBottom: '0.85rem',
+        },
+        namespace: {
+          oapcity: 0.7,
+        },
       },
     },
   },
   variants: {},
   plugins: [
-    ({ addUtilities }) => {
+    ({addUtilities}) => {
       addUtilities({
         '.border-t-white': {
           'border-top-color': '#fff',
         },
-      });
+      })
     },
+    require('./tailwind-syntax'),
   ],
 }
